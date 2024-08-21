@@ -1,4 +1,3 @@
-import { RegisterComponent } from './components/users/register/register.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -15,10 +14,26 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'users/register',
+    path: 'users',
     loadComponent: () =>
-      import('./components/users/register/register.component').then(
-        (m) => m.RegisterComponent
+      import('./components/users/users/users.component').then(
+        (m) => m.UsersComponent
+      ),
+    children: [
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./components/users/register/register.component').then(
+            (m) => m.RegisterComponent
+          ),
+      },
+    ],
+  },
+  {
+    path: 'calendar',
+    loadComponent: () =>
+      import('./components/calendar/calendar/calendar.component').then(
+        (m) => m.CalendarComponent
       ),
   },
 ];
