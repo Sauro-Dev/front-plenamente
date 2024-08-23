@@ -15,19 +15,9 @@ export const routes: Routes = [
   },
   {
     path: 'users',
-    loadComponent: () =>
-      import('./components/users/users/users.component').then(
-        (m) => m.UsersComponent
-      ),
-    children: [
-      {
-        path: 'register',
-        loadComponent: () =>
-          import('./components/users/register/register.component').then(
-            (m) => m.RegisterComponent
-          ),
-      },
-    ],
+    loadChildren: () =>
+      import('./components/users/users.rutes'),
+
   },
   {
     path: 'calendar',

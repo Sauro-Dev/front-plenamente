@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
-import { RegisterComponent } from './register/register.component';
 
-export const usersRoutes: Routes = [
+export default [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./users/users.component').then((m) => m.UsersComponent),
+  },
   {
     path: 'register',
-    component: RegisterComponent,
+    loadComponent: () =>
+      import('./register/register.component').then((m) => m.RegisterComponent),
   },
-];
+] as Routes
