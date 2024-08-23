@@ -1,20 +1,96 @@
-<h1>Username</h1>
-<div>
-    <h1>Contraseña</h1>
-    <h1>Confirmar Contraseña</h1>
-</div>
-<h1>Nombres</h1>
-<h1>Apellido Paterno</h1>
-<h1>Apellido Materno</h1>
-<h1>DNI</h1>
-<h1>E-mail</h1>
-<h1>Dirección</h1>
-<div>
-    <h1>Teléfono</h1>
-    <h1>Teléfono de respaldo</h1>
-</div>
-<h1>Rol</h1>
-<button>Terapeuta</button>
-<button>Secretario/a</button>
-<h2>Admin</h2>
-<button>Guardar</button><button>Cancelar</button>
+<section class="flex flex-col text-2xl w-screen items-center mt-12">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="mb-5">
+            <h1 class="flex justify-start w-56">Username</h1>
+            <input type="text" class="border-2 border-black" formControlName="username">
+        </div>
+        <div class="flex gap-16 mb-5">
+            <div>
+                <h1>Contraseña</h1>
+                <input type="password" class="border-2 border-black" formControlName="password">
+            </div>
+            <div>
+                <h1>Confirmar Contraseña</h1>
+                <div class="flex flex-col">
+                    <input type="password" class="border-2 border-black" formControlName="confirmPassword">
+                    <small class="text-red-600 absolute mt-10"
+                        *ngIf="registerForm.hasError('passwordsDontMatch') && registerForm.get('confirmPassword')?.touched">
+                        Las contraseñas no coinciden.
+                    </small></div>
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h1>Nombres</h1>
+            <input type="text" class="border-2 border-black" formControlName="name">
+        </div>
+        <div class="flex gap-16 mb-5">
+            <div>
+                <h1>Apellido Paterno</h1>
+                <input type="text" class="border-2 border-black" formControlName="lastNamePaterno">
+            </div>
+            <div>
+                <h1>Apellido Materno</h1>
+                <input type="text" class="border-2 border-black" formControlName="lastNameMaterno">
+            </div>
+        </div>
+        <div class="flex gap-16 mb-5">
+            <div>
+                <h1>DNI</h1>
+                <input type="text" class="border-2 border-black" formControlName="dni" placeholder="Ingrese su DNI">
+                <small *ngIf="registerForm.get('dni')?.hasError('pattern') && registerForm.get('dni')?.touched">
+                    El DNI debe tener 8 dígitos.
+                </small>
+            </div>
+            <div>
+                <h1>E-mail</h1>
+                <input type="email" class="border-2 border-black" formControlName="email">
+            </div>
+        </div>
+        <div class="flex gap-16 mb-5">
+            <div>
+                <h1>Dirección</h1>
+                <input type="text" class="border-2 border-black" formControlName="address">
+            </div>
+            <div>
+                <h1>Fecha de Nacimiento</h1>
+                <input type="date" class="border-2 border-black" formControlName="birthdate">
+            </div>
+        </div>
+        <div class="flex gap-16 mb-5">
+            <div>
+                <h1>Teléfono</h1>
+                <input type="tel" class="border-2 border-black" formControlName="phone">
+            </div>
+            <div>
+                <h1>Teléfono de respaldo</h1>
+                <input type="tel" class="border-2 border-black" formControlName="backupPhone">
+            </div>
+        </div>
+        <div class="flex gap-20 mb-5">
+            <h1>Rol:</h1>
+            <button type="button" (click)="selectRole('Terapeuta')" [ngClass]="{
+                'bg-blue-800 text-white scale-110': selectedRole === 'Terapeuta',
+                'bg-gray-200': selectedRole !== 'Terapeuta'
+              }" class="px-3 py-1 rounded-lg text-xl hover:scale-110 duration-150 transition-transform">
+                Terapeuta
+            </button>
+
+            <button type="button" (click)="selectRole('Secretario/a')" [ngClass]="{
+                'bg-blue-800 text-white scale-110': selectedRole === 'Secretario/a',
+                'bg-gray-200': selectedRole !== 'Secretario/a'
+              }" class="px-3 py-1 rounded-lg text-xl hover:scale-110 duration-150 transition-transform">
+                Secretario/a
+            </button>
+        </div>
+
+        <div class="flex gap-10 mb-5 items-center">
+            <h2>Admin</h2>
+            <input type="checkbox" class="w-6 h-6 border-2 border-black" [checked]="isAdminSelected"
+                (change)="toggleAdmin()" />
+        </div>
+        <div class="flex gap-20 justify-center mt-16">
+            <button type="submit">Guardar</button><button type="button">Cancelar</button>
+        </div>
+    </form>
+</section>
