@@ -8,6 +8,7 @@ import {
   ValidationErrors,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -27,7 +28,8 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private registerService: RegisterService
+    private registerService: RegisterService,
+    private router: Router
   ) {
     this.registerForm = this.fb.group(
       {
@@ -106,26 +108,43 @@ export class RegisterComponent {
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      const formValue = this.registerForm.value;
-
-      let finalRole = formValue.role;
-
-      if (this.isAdminSelected && this.selectedRole === 'Terapeuta') {
-        finalRole = 'ADMIN';
-      }
-
-      formValue.role = finalRole;
-
-      this.registerService.registerUser(formValue).subscribe(
-        (response) => {
-          console.log('Registro exitoso', response);
-        },
-        (error) => {
-          console.error('Error al registrar', error);
-        }
+      const confirmed = window.confirm(
+        '¿Estás seguro de que deseas guardar este registro?'
       );
+
+      if (confirmed) {
+        const formValue = this.registerForm.value;
+
+        let finalRole = formValue.role;
+
+        if (this.isAdminSelected && this.selectedRole === 'Terapeuta') {
+          finalRole = 'ADMIN';
+        }
+
+        formValue.role = finalRole;
+
+        this.registerService.registerUser(formValue).subscribe(
+          (response) => {
+            console.log('Registro exitoso', response);
+            this.router.navigate(['/users']);
+          },
+          (error) => {
+            console.error('Error al registrar', error);
+          }
+        );
+      }
     } else {
       console.error('Formulario inválido');
+    }
+  }
+
+  onCancel(): void {
+    const confirmed = window.confirm(
+      '¿Estás seguro de que deseas cancelar el registro?'
+    );
+
+    if (confirmed) {
+      this.router.navigate(['/users']);
     }
   }
 }
