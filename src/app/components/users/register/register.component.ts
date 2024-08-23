@@ -49,7 +49,7 @@ export class RegisterComponent {
         isAdmin: [false],
         paymentPerSession: [null],
         paymentPerMonth: [null],
-        adminPassword: ['', Validators.required],
+        adminPassword: [''],
       },
       { validators: this.passwordsMatchValidator }
     );
@@ -65,25 +65,51 @@ export class RegisterComponent {
   }
 
   selectRole(role: string): void {
-    this.selectedRole = role;
-    this.registerForm.patchValue({ role: role });
+    let backendRole: string;
 
     if (role === 'Terapeuta') {
-      this.registerForm.patchValue({ paymentPerSession: null });
+      backendRole = 'THERAPIST';
     } else if (role === 'Secretario/a') {
-      this.registerForm.patchValue({ paymentPerMonth: null });
+      backendRole = 'SECRETARY';
+    } else if (role === 'Admin') {
+      backendRole = 'ADMIN';
+    } else {
+      backendRole = '';
     }
-  }
 
-  toggleAdmin(): void {
-    this.isAdminSelected = !this.isAdminSelected;
-    this.registerForm.patchValue({ isAdmin: this.isAdminSelected });
+    this.selectedRole = role;
+    this.registerForm.patchValue({ role: backendRole });
+
+    this.registerForm.get('paymentPerSession')?.clearValidators();
+    this.registerForm.get('paymentPerMonth')?.clearValidators();
+
+    if (role === 'Terapeuta') {
+      this.registerForm
+        .get('paymentPerSession')
+        ?.setValidators([Validators.required, Validators.min(1)]);
+    } else if (role === 'Secretario/a') {
+      this.registerForm
+        .get('paymentPerMonth')
+        ?.setValidators([Validators.required, Validators.min(1)]);
+    }
+
+    this.registerForm.get('paymentPerSession')?.updateValueAndValidity();
+    this.registerForm.get('paymentPerMonth')?.updateValueAndValidity();
+
+    // Limpiar validadores de la contraseña de admin cuando se selecciona un rol que no es Admin
+    this.registerForm.get('adminPassword')?.clearValidators();
+    this.registerForm.get('adminPassword')?.updateValueAndValidity();
   }
 
   promptAdminPassword(event: MouseEvent): void {
     if (event) {
       event.preventDefault();
     }
+
+    this.registerForm
+      .get('adminPassword')
+      ?.setValidators([Validators.required]);
+    this.registerForm.get('adminPassword')?.updateValueAndValidity();
 
     this.showAdminDialog = true;
   }
@@ -95,6 +121,9 @@ export class RegisterComponent {
       this.isAdminSelected = true;
       this.registerForm.patchValue({ isAdmin: true });
       this.showAdminDialog = false;
+
+      this.registerForm.get('adminPassword')?.clearValidators();
+      this.registerForm.get('adminPassword')?.updateValueAndValidity();
     } else {
       alert('Contraseña incorrecta');
     }
@@ -104,6 +133,9 @@ export class RegisterComponent {
     this.showAdminDialog = false;
     this.isAdminSelected = false;
     this.registerForm.patchValue({ isAdmin: false });
+
+    this.registerForm.get('adminPassword')?.clearValidators();
+    this.registerForm.get('adminPassword')?.updateValueAndValidity();
   }
 
   onSubmit(): void {
@@ -115,14 +147,32 @@ export class RegisterComponent {
       if (confirmed) {
         const formValue = this.registerForm.value;
 
-        let finalRole = formValue.role;
+        // Depuración: Imprimir los valores antes de enviar al backend
+        console.log('Formulario antes del envío:', formValue);
 
-        if (this.isAdminSelected && this.selectedRole === 'Terapeuta') {
-          finalRole = 'ADMIN';
+        // Asignar valores por defecto si son nulos
+        if (this.selectedRole === 'Terapeuta') {
+          formValue.paymentPerSession = formValue.paymentPerSession
+            ? parseFloat(formValue.paymentPerSession)
+            : 0.0;
+          formValue.paymentPerMonth = 0.0; // Asegurar que el campo tenga un valor numérico, no null
+        } else if (this.selectedRole === 'Secretario/a') {
+          formValue.paymentPerMonth = formValue.paymentPerMonth
+            ? parseFloat(formValue.paymentPerMonth)
+            : 0.0;
+          formValue.paymentPerSession = 0.0; // Asegurar que el campo tenga un valor numérico, no null
+        } else {
+          formValue.paymentPerSession = 0.0; // Valor por defecto si no es Terapeuta
+          formValue.paymentPerMonth = 0.0; // Valor por defecto si no es Secretario/a
         }
 
-        formValue.role = finalRole;
+        // Depuración: Imprimir los valores después de asignar los predeterminados
+        console.log(
+          'Formulario después de asignar valores por defecto:',
+          formValue
+        );
 
+        // Enviar el formulario al backend
         this.registerService.registerUser(formValue).subscribe(
           (response) => {
             console.log('Registro exitoso', response);
