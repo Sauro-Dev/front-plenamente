@@ -22,6 +22,9 @@ export class RegisterComponent {
   selectedRole: string | null = null;
   isAdminSelected: boolean = false;
 
+  showAdminDialog: boolean = false;
+  adminPassword: string = '';
+
   constructor(
     private fb: FormBuilder,
     private registerService: RegisterService
@@ -42,6 +45,9 @@ export class RegisterComponent {
         backupPhone: ['', Validators.required],
         role: ['', Validators.required],
         isAdmin: [false],
+        paymentPerSession: [null],
+        paymentPerMonth: [null],
+        adminPassword: ['', Validators.required],
       },
       { validators: this.passwordsMatchValidator }
     );
@@ -59,11 +65,43 @@ export class RegisterComponent {
   selectRole(role: string): void {
     this.selectedRole = role;
     this.registerForm.patchValue({ role: role });
+
+    if (role === 'Terapeuta') {
+      this.registerForm.patchValue({ paymentPerSession: null });
+    } else if (role === 'Secretario/a') {
+      this.registerForm.patchValue({ paymentPerMonth: null });
+    }
   }
 
   toggleAdmin(): void {
     this.isAdminSelected = !this.isAdminSelected;
     this.registerForm.patchValue({ isAdmin: this.isAdminSelected });
+  }
+
+  promptAdminPassword(event: MouseEvent): void {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.showAdminDialog = true;
+  }
+
+  confirmAdminPassword(): void {
+    const adminPassword = this.registerForm.get('adminPassword')?.value;
+
+    if (adminPassword === 'admin123') {
+      this.isAdminSelected = true;
+      this.registerForm.patchValue({ isAdmin: true });
+      this.showAdminDialog = false;
+    } else {
+      alert('Contraseña incorrecta');
+    }
+  }
+
+  cancelAdminDialog(): void {
+    this.showAdminDialog = false;
+    this.isAdminSelected = false;
+    this.registerForm.patchValue({ isAdmin: false });
   }
 
   onSubmit(): void {

@@ -1,56 +1,62 @@
-<section class="flex flex-col text-2xl w-screen items-center mt-12">
+<section class="flex flex-col text-2xl w-full items-center mt-12">
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="mb-5">
             <h1 class="flex justify-start w-56">Username</h1>
-            <input type="text" class="border-2 border-black" formControlName="username">
+            <input type="text" class="border-2 border-black" formControlName="username" placeholder="Username">
         </div>
         <div class="flex gap-16 mb-5">
             <div>
                 <h1>Contraseña</h1>
-                <input type="password" class="border-2 border-black" formControlName="password">
+                <input type="password" class="border-2 border-black" formControlName="password"
+                    placeholder="Contraseña">
             </div>
             <div>
                 <h1>Confirmar Contraseña</h1>
                 <div class="flex flex-col">
-                    <input type="password" class="border-2 border-black" formControlName="confirmPassword">
+                    <input type="password" class="border-2 border-black" formControlName="confirmPassword"
+                        placeholder="Confirmar Contraseña">
                     <small class="text-red-600 absolute mt-10"
                         *ngIf="registerForm.hasError('passwordsDontMatch') && registerForm.get('confirmPassword')?.touched">
                         Las contraseñas no coinciden.
-                    </small></div>
+                    </small>
+                </div>
             </div>
         </div>
 
         <div class="mb-5">
             <h1>Nombres</h1>
-            <input type="text" class="border-2 border-black" formControlName="name">
+            <input type="text" class="border-2 border-black" formControlName="name" placeholder="Nombre">
         </div>
         <div class="flex gap-16 mb-5">
             <div>
                 <h1>Apellido Paterno</h1>
-                <input type="text" class="border-2 border-black" formControlName="lastNamePaterno">
+                <input type="text" class="border-2 border-black" formControlName="lastNamePaterno"
+                    placeholder="Apellido Paterno">
             </div>
             <div>
                 <h1>Apellido Materno</h1>
-                <input type="text" class="border-2 border-black" formControlName="lastNameMaterno">
+                <input type="text" class="border-2 border-black" formControlName="lastNameMaterno"
+                    placeholder="Apellido Materno">
             </div>
         </div>
         <div class="flex gap-16 mb-5">
             <div>
                 <h1>DNI</h1>
-                <input type="text" class="border-2 border-black" formControlName="dni" placeholder="Ingrese su DNI">
+                <input type="text" class="border-2 border-black" formControlName="dni" placeholder="DNI">
                 <small *ngIf="registerForm.get('dni')?.hasError('pattern') && registerForm.get('dni')?.touched">
                     El DNI debe tener 8 dígitos.
                 </small>
             </div>
             <div>
                 <h1>E-mail</h1>
-                <input type="email" class="border-2 border-black" formControlName="email">
+                <input type="email" class="border-2 border-black" formControlName="email" placeholder="Correo">
             </div>
         </div>
         <div class="flex gap-16 mb-5">
             <div>
                 <h1>Dirección</h1>
-                <input type="text" class="border-2 border-black" formControlName="address">
+                <input type="text" class="border-2 border-black" formControlName="address"
+                    placeholder="Ingrese la Dirección">
             </div>
             <div>
                 <h1>Fecha de Nacimiento</h1>
@@ -60,11 +66,12 @@
         <div class="flex gap-16 mb-5">
             <div>
                 <h1>Teléfono</h1>
-                <input type="tel" class="border-2 border-black" formControlName="phone">
+                <input type="tel" class="border-2 border-black" formControlName="phone" placeholder="Teléfono">
             </div>
             <div>
                 <h1>Teléfono de respaldo</h1>
-                <input type="tel" class="border-2 border-black" formControlName="backupPhone">
+                <input type="tel" class="border-2 border-black" formControlName="backupPhone"
+                    placeholder="Teléfono de respaldo">
             </div>
         </div>
         <div class="flex gap-20 mb-5">
@@ -84,13 +91,32 @@
             </button>
         </div>
 
-        <div class="flex gap-10 mb-5 items-center">
+        <div *ngIf="selectedRole !== 'Secretario/a'" class="flex gap-10 mb-5 items-center">
             <h2>Admin</h2>
             <input type="checkbox" class="w-6 h-6 border-2 border-black" [checked]="isAdminSelected"
-                (change)="toggleAdmin()" />
+                (click)="promptAdminPassword($event)" />
         </div>
-        <div class="flex gap-20 justify-center mt-16">
-            <button type="submit">Guardar</button><button type="button">Cancelar</button>
+
+        <div *ngIf="showAdminDialog"
+            class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center">
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <h2 class="text-xl mb-4">Confirmar Contraseña de Usuario</h2>
+                <input type="password" formControlName="adminPassword" class="border-2 border-black w-full mb-4"
+                    placeholder="Ingrese su contraseña">
+                <div class="flex gap-4 justify-end">
+                    <button type="button" (click)="confirmAdminPassword()"
+                        class="bg-blue-800 text-white px-3 py-1 rounded-lg">Confirmar</button>
+                    <button type="button" (click)="cancelAdminDialog()"
+                        class="bg-red-600 text-white px-3 py-1 rounded-lg">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-20 justify-center my-16">
+            <button type="submit"
+                class="bg-blue-800 text-white px-3 py-1 rounded-lg text-2xl hover:scale-110 duration-150 transition-transform">Guardar</button>
+            <button type="button"
+                class="bg-blue-800 text-white px-3 py-1 rounded-lg text-2xl hover:scale-110 duration-150 transition-transform">Cancelar</button>
         </div>
     </form>
 </section>
