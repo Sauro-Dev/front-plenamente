@@ -1,36 +1,33 @@
-<<div class="container mx-auto px-4 py-6">
-
-  <button class="bg-blue-800 m-10 px-3 py-1 text-white rounded-lg text-xl hover:scale-110 duration-150 transition-transform" [routerLink]="'/users/register'">
+<div class="container mx-auto px-4 py-6">
+  <button class="bg-blue-800 m-10 px-3 py-1 text-white rounded-lg text-xl hover:scale-110 duration-150 transition-transform" [routerLink]="'/register'">
     Agregar
   </button>
 
   <div class="flex justify-between items-center mt-4 mb-6">
     <div>
       <label for="buscar" class="text-xl">Buscar: </label>
-      <input id="buscar" type="text" class="border rounded px-3 py-1" placeholder="Nombres" />
+      <input id="buscar" type="text" class="border rounded px-3 py-1" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Nombres" />
     </div>
     <div>
       <label for="filtrar" class="text-xl">Filtrar: </label>
-      <select id="filtrar" class="border rounded px-3 py-1">
-        <option value="rol">Rol</option>
+      <select id="filtrar" class="border rounded px-3 py-1" [(ngModel)]="selectedRole" (change)="onFilter()">
+        <option value="">Todos los roles</option>
+        <option value="Admin">Admin</option>
+        <option value="Therapist">Terapeuta</option>
+        <option value="Secretary">Secretaria</option>
+        <!-- Agrega más roles según tu sistema -->
       </select>
     </div>
     <div>
       <label for="ordenar" class="text-xl">Ordenar: </label>
-      <select id="ordenar" class="border rounded px-3 py-1">
-        <option value="alfabetico">Alfabético</option>
-        <option value="inverso">Inverso</option>
+      <select id="ordenar" class="border rounded px-3 py-1" [(ngModel)]="sortOrder" (change)="onSort()">
+        <option value="asc">Alfabético</option>
+        <option value="desc">Inverso</option>
       </select>
-      <button class="ml-2 text-gray-700">
-        <span>&uarr;</span>
-      </button>
-      <button class="text-gray-700">
-        <span>&darr;</span>
-      </button>
     </div>
     <div>
       <label for="mostrar" class="text-xl">Mostrar</label>
-      <select id="mostrar" class="border rounded px-3 py-1">
+      <select id="mostrar" class="border rounded px-3 py-1" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
         <option value="10">10</option>
         <option value="20">20</option>
       </select>
@@ -39,7 +36,7 @@
 
   <!-- Grid de Usuarios -->
   <div class="grid grid-cols-4 gap-4">
-    <div *ngFor="let user of users" class="bg-gray-200 rounded-lg shadow-lg p-4 text-center">
+    <div *ngFor="let user of filteredUsers" class="bg-gray-200 rounded-lg shadow-lg p-4 text-center">
       <p class="text-xl font-semibold">{{ user.name }} {{ user.paternalSurname }} {{ user.maternalSurname }}</p>
       <p class="text-green-500 mt-2">Teléfono: {{ user.phone }}</p>
       <a href="#" class="text-blue-600 underline mt-4 block">Detalles</a>
@@ -48,10 +45,10 @@
 
   <!-- Paginación -->
   <div class="flex justify-center mt-6">
-    <button class="px-3 py-1 mx-1 text-gray-700"><<</button>
-    <button class="px-3 py-1 mx-1 text-gray-700"><</button>
-    <button class="px-3 py-1 mx-1 text-gray-700">1</button>
-    <button class="px-3 py-1 mx-1 text-gray-700">></button>
-    <button class="px-3 py-1 mx-1 text-gray-700">>></button>
+    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(1)">&lt;&lt;</button>
+    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">&lt;</button>
+    <span class="px-3 py-1 mx-1 text-gray-700">{{ currentPage }}</span>
+    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(currentPage + 1)">&gt;</button>
+    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(Math.ceil(filteredUsers.length / itemsPerPage))">&gt;&gt;</button>
   </div>
 </div>
