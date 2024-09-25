@@ -46,10 +46,10 @@
 
   <!-- Paginación -->
   <div class="flex justify-center mt-6">
-    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(1)">&lt;&lt;</button>
+    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(1)" [disabled]="currentPage === 1">&lt;&lt;</button>
     <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">&lt;</button>
     <span class="px-3 py-1 mx-1 text-gray-700">{{ currentPage }}</span>
-    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(currentPage + 1)">&gt;</button>
-    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(Math.ceil(filteredUsers.length / itemsPerPage))">&gt;&gt;</button>
+    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(currentPage + 1)" [disabled]="currentPage >= Math.ceil(filteredUsers.length / itemsPerPage)">&gt;</button>
+    <button class="px-3 py-1 mx-1 text-gray-700" (click)="goToPage(Math.ceil(filteredUsers.length / itemsPerPage))" [disabled]="currentPage >= Math.ceil(filteredUsers.length / itemsPerPage)">&gt;&gt;</button>
   </div>
 </div>

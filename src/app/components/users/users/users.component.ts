@@ -50,18 +50,18 @@ export class UsersComponent implements OnInit {
     this.filteredUsers = this.users.filter(user =>
       user.name.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
+    this.currentPage = 1; // Resetear a la primera página
     this.paginate();
   }
 
   // Función de filtrado
   onFilter(): void {
-    if (this.selectedRole && this.selectedRole !== "Todos los roles") {
-      this.filteredUsers = this.users.filter(user =>
-        user.role.toLowerCase() === this.selectedRole.toLowerCase() // Comparar en minúsculas
-      );
+    if (this.selectedRole) {
+      this.filteredUsers = this.users.filter(user => user.role === this.selectedRole);
     } else {
-      this.filteredUsers = [...this.users]; // Mostrar todos si se selecciona "Todos los roles"
+      this.filteredUsers = [...this.users]; // Mostrar todos si no se selecciona rol
     }
+    this.currentPage = 1; // Resetear a la primera página
     this.paginate();
   }
 
@@ -88,7 +88,16 @@ export class UsersComponent implements OnInit {
   paginate(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.filteredUsers = this.filteredUsers.slice(startIndex, endIndex);
+
+    const paginatedUsers = this.filteredUsers.slice(startIndex, endIndex);
+
+    // Si el número de usuarios es menor que el inicio de la página, volver a la primera página
+    if (paginatedUsers.length === 0 && this.currentPage > 1) {
+      this.currentPage = 1;
+      this.paginate();
+    } else {
+      this.filteredUsers = paginatedUsers;
+    }
   }
 
   // Funciones para cambiar de página

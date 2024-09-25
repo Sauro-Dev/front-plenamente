@@ -12,9 +12,9 @@
       <label for="filtrar" class="text-xl">Filtrar: </label>
       <select id="filtrar" class="border rounded px-3 py-1" [(ngModel)]="selectedRole" (change)="onFilter()">
         <option value="">Todos los roles</option>
-        <option value="Admin">Admin</option>
-        <option value="Therapist">Terapeuta</option>
-        <option value="Secretary">Secretaria</option>
+        <option value="ADMIN">Admin</option>
+        <option value="THERAPIST">Terapeuta</option>
+        <option value="SECRETARY">Secretaria</option>
         <!-- Agrega más roles según tu sistema -->
       </select>
     </div>
