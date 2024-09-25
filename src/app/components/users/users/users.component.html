@@ -40,7 +40,8 @@
       <p class="text-xl font-semibold">{{ user.name }}</p>
       <p class="text-green-500 mt-2">Email: {{ user.email }}</p>
       <p class="text-gray-500 mt-2">Rol: {{ user.role }}</p>
-      <a href="#" class="text-blue-600 underline mt-4 block">Detalles</a>
+      <a [routerLink]="['/users/details', user.id]" class="text-blue-600 underline mt-4 block">Detalles</a>
+
     </div>
   </div>
 

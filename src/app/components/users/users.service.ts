@@ -28,4 +28,13 @@ export class UsersService {
 
     return this.http.get<any[]>(`${this.apiUrl}/all`, { headers });  // Corrige la opción `headers`
   }
+
+  // Método para obtener un usuario por su ID
+  getUserDetails(userId: number): Observable<any> {
+    const token: string | null = localStorage.getItem('token'); // Obtiene el token de localStorage
+    const headers: HttpHeaders = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.get<any>(`${this.apiUrl}/${userId}`, { headers });
+  }
+
 }

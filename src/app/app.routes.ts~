@@ -4,7 +4,9 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./components/auth/Login/login.component').then((m) => m.LoginComponent),
+      import('./components/auth/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
   },
   {
     path: '',
@@ -14,11 +16,14 @@ export const routes: Routes = [
   {
     path: 'users',
     loadChildren: () =>
-      import('./components/users/users.routes').then((m) => m.default),  // Ajuste aquí
+      import('./components/users/users.routes').then((m) => m.usersRoutes),
+
   },
   {
     path: 'calendar',
     loadComponent: () =>
-      import('./components/calendar/calendar/calendar.component').then((m) => m.CalendarComponent),
+      import('./components/calendar/calendar/calendar.component').then(
+        (m) => m.CalendarComponent
+      ),
   },
 ];
