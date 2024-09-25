@@ -33,15 +33,23 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group(
       {
-        username: ['', Validators.required],
+        username: [''],
         password: ['', Validators.required],
         confirmPassword: ['', Validators.required],
-        name: ['', Validators.required],
+        name: [''],
         lastNamePaterno: ['', Validators.required],
         lastNameMaterno: ['', Validators.required],
         dni: ['', [Validators.required, Validators.pattern('\\d{8}')]],
-        email: ['', [Validators.required, Validators.email]],
-        address: ['', Validators.required],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[a-zA-ZñÑ0-9._%+-]+@[a-zA-ZñÑ0-9.-]+\.[a-zA-Z]{2,4}$/
+            ),
+          ],
+        ],
+        address: [''],
         birthdate: ['', Validators.required],
         phone: ['', Validators.required],
         backupPhone: ['', Validators.required],
@@ -84,19 +92,15 @@ export class RegisterComponent {
     this.registerForm.get('paymentPerMonth')?.clearValidators();
 
     if (role === 'Terapeuta') {
-      this.registerForm
-        .get('paymentPerSession')
-        ?.setValidators([Validators.required, Validators.min(1)]);
+      this.registerForm.get('paymentPerSession')?.setValidators([Validators.min(1)]);
     } else if (role === 'Secretario/a') {
-      this.registerForm
-        .get('paymentPerMonth')
-        ?.setValidators([Validators.required, Validators.min(1)]);
+      this.registerForm.get('paymentPerMonth')?.setValidators([Validators.min(1)]);
     }
+    
 
     this.registerForm.get('paymentPerSession')?.updateValueAndValidity();
     this.registerForm.get('paymentPerMonth')?.updateValueAndValidity();
 
-    // Limpiar validadores de la contraseña de admin cuando se selecciona un rol que no es Admin
     this.registerForm.get('adminPassword')?.clearValidators();
     this.registerForm.get('adminPassword')?.updateValueAndValidity();
   }
@@ -105,13 +109,26 @@ export class RegisterComponent {
     if (event) {
       event.preventDefault();
     }
-
+  
+    this.registerForm.patchValue({ adminPassword: '' });
+  
     this.registerForm
       .get('adminPassword')
       ?.setValidators([Validators.required]);
     this.registerForm.get('adminPassword')?.updateValueAndValidity();
-
+  
     this.showAdminDialog = true;
+  }
+
+  toggleAdminSelection(event: MouseEvent): void {
+    const checkbox = event.target as HTMLInputElement;
+    
+    if (checkbox.checked) {
+      this.promptAdminPassword(event);
+    } else {
+      this.isAdminSelected = false;
+      this.registerForm.patchValue({ isAdmin: false });
+    }
   }
 
   confirmAdminPassword(): void {
@@ -147,35 +164,23 @@ export class RegisterComponent {
       if (confirmed) {
         const formValue = this.registerForm.value;
 
-        // Depuración: Imprimir los valores antes de enviar al backend
-        console.log('Formulario antes del envío:', formValue);
-
-        // Asignar valores por defecto si son nulos
         if (this.selectedRole === 'Terapeuta') {
-          formValue.paymentPerSession = formValue.paymentPerSession
-            ? parseFloat(formValue.paymentPerSession)
-            : 0.0;
-          formValue.paymentPerMonth = 0.0; // Asegurar que el campo tenga un valor numérico, no null
+          formValue.paymentPerSession = formValue.paymentPerSession 
+          ? (Number(formValue.paymentPerSession) * 1.0) 
+          : null;
+          formValue.paymentPerMonth = null;
         } else if (this.selectedRole === 'Secretario/a') {
-          formValue.paymentPerMonth = formValue.paymentPerMonth
-            ? parseFloat(formValue.paymentPerMonth)
-            : 0.0;
-          formValue.paymentPerSession = 0.0; // Asegurar que el campo tenga un valor numérico, no null
+          formValue.paymentPerMonth = formValue.paymentPerMonth 
+          ? (Number(formValue.paymentPerMonth) * 1.0) 
+          : 0.0;
+          formValue.paymentPerSession = null;
         } else {
-          formValue.paymentPerSession = 0.0; // Valor por defecto si no es Terapeuta
-          formValue.paymentPerMonth = 0.0; // Valor por defecto si no es Secretario/a
+          formValue.paymentPerSession = null;
+          formValue.paymentPerMonth = null;
         }
 
-        // Depuración: Imprimir los valores después de asignar los predeterminados
-        console.log(
-          'Formulario después de asignar valores por defecto:',
-          formValue
-        );
-
-        // Enviar el formulario al backend
         this.registerService.registerUser(formValue).subscribe(
           (response) => {
-            console.log('Registro exitoso', response);
             this.router.navigate(['/users']);
           },
           (error) => {
