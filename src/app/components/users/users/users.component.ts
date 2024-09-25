@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import {HttpClientModule} from "@angular/common/http";
-import {CommonModule} from "@angular/common";
-import {UsersService} from "../users.service";
-import {FormsModule} from "@angular/forms"; [UsersService]
+import { RouterLink, Router, RouterModule } from '@angular/router'; // Importar Router y RouterModule
+import { HttpClientModule } from "@angular/common/http";
+import { CommonModule } from "@angular/common";
+import { UsersService } from "../users.service";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [RouterLink, RouterLink, HttpClientModule, CommonModule, FormsModule],
+  imports: [RouterLink, RouterModule, HttpClientModule, CommonModule, FormsModule], // Agregar RouterModule a los imports
   templateUrl: './users.component.html',
-  styleUrl: './users.component.css'
+  styleUrls: ['./users.component.css'] // Cambiado a styleUrls
 })
 export class UsersComponent implements OnInit {
   users: any[] = [];
@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit {
   itemsPerPage: number = 10;
   currentPage: number = 1;
 
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService, private router: Router) {} // Inyectar Router
 
   ngOnInit(): void {
     this.loadUsers();
@@ -31,10 +31,16 @@ export class UsersComponent implements OnInit {
     this.usersService.getUsers().subscribe(
       (data) => {
         this.users = data;
-        this.filteredUsers = [...this.users]; // Inicialmente todos los usuarios son visibles
+        this.filteredUsers = [...this.users];
       },
       (error) => {
-        console.error('Error fetching users', error);
+        if (error.status === 403) {
+          // Redirigir al login o mostrar mensaje de error
+          console.error('Acceso denegado: Se requiere rol ADMIN');
+          this.router.navigate(['/login']); // Redirección al login
+        } else {
+          console.error('Error fetching users', error);
+        }
       }
     );
   }

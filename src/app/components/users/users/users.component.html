@@ -1,5 +1,5 @@
 <div class="container mx-auto px-4 py-6">
-  <button class="bg-blue-800 m-10 px-3 py-1 text-white rounded-lg text-xl hover:scale-110 duration-150 transition-transform" [routerLink]="'/register'">
+  <button class="bg-blue-800 m-10 px-3 py-1 text-white rounded-lg text-xl hover:scale-110 duration-150 transition-transform" [routerLink]="'/users/register'">
     Agregar
   </button>
 
@@ -37,8 +37,9 @@
   <!-- Grid de Usuarios -->
   <div class="grid grid-cols-4 gap-4">
     <div *ngFor="let user of filteredUsers" class="bg-gray-200 rounded-lg shadow-lg p-4 text-center">
-      <p class="text-xl font-semibold">{{ user.name }} {{ user.paternalSurname }} {{ user.maternalSurname }}</p>
-      <p class="text-green-500 mt-2">Teléfono: {{ user.phone }}</p>
+      <p class="text-xl font-semibold">{{ user.name }}</p>
+      <p class="text-green-500 mt-2">Email: {{ user.email }}</p>
+      <p class="text-gray-500 mt-2">Rol: {{ user.role }}</p>
       <a href="#" class="text-blue-600 underline mt-4 block">Detalles</a>
     </div>
   </div>
