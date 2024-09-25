@@ -33,15 +33,23 @@ export class RegisterComponent {
   ) {
     this.registerForm = this.fb.group(
       {
-        username: ['', Validators.required],
+        username: [''],
         password: ['', Validators.required],
         confirmPassword: ['', Validators.required],
-        name: ['', Validators.required],
+        name: [''],
         lastNamePaterno: ['', Validators.required],
         lastNameMaterno: ['', Validators.required],
         dni: ['', [Validators.required, Validators.pattern('\\d{8}')]],
-        email: ['', [Validators.required, Validators.email]],
-        address: ['', Validators.required],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(
+              /^[a-zA-ZñÑ0-9._%+-]+@[a-zA-ZñÑ0-9.-]+\.[a-zA-Z]{2,4}$/
+            ),
+          ],
+        ],
+        address: [''],
         birthdate: ['', Validators.required],
         phone: ['', Validators.required],
         backupPhone: ['', Validators.required],
@@ -49,7 +57,7 @@ export class RegisterComponent {
         isAdmin: [false],
         paymentPerSession: [null],
         paymentPerMonth: [null],
-        adminPassword: ['', Validators.required],
+        adminPassword: [''],
       },
       { validators: this.passwordsMatchValidator }
     );
@@ -65,27 +73,62 @@ export class RegisterComponent {
   }
 
   selectRole(role: string): void {
-    this.selectedRole = role;
-    this.registerForm.patchValue({ role: role });
+    let backendRole: string;
 
     if (role === 'Terapeuta') {
-      this.registerForm.patchValue({ paymentPerSession: null });
+      backendRole = 'THERAPIST';
     } else if (role === 'Secretario/a') {
-      this.registerForm.patchValue({ paymentPerMonth: null });
+      backendRole = 'SECRETARY';
+    } else if (role === 'Admin') {
+      backendRole = 'ADMIN';
+    } else {
+      backendRole = '';
     }
-  }
 
-  toggleAdmin(): void {
-    this.isAdminSelected = !this.isAdminSelected;
-    this.registerForm.patchValue({ isAdmin: this.isAdminSelected });
+    this.selectedRole = role;
+    this.registerForm.patchValue({ role: backendRole });
+
+    this.registerForm.get('paymentPerSession')?.clearValidators();
+    this.registerForm.get('paymentPerMonth')?.clearValidators();
+
+    if (role === 'Terapeuta') {
+      this.registerForm.get('paymentPerSession')?.setValidators([Validators.min(1)]);
+    } else if (role === 'Secretario/a') {
+      this.registerForm.get('paymentPerMonth')?.setValidators([Validators.min(1)]);
+    }
+    
+
+    this.registerForm.get('paymentPerSession')?.updateValueAndValidity();
+    this.registerForm.get('paymentPerMonth')?.updateValueAndValidity();
+
+    this.registerForm.get('adminPassword')?.clearValidators();
+    this.registerForm.get('adminPassword')?.updateValueAndValidity();
   }
 
   promptAdminPassword(event: MouseEvent): void {
     if (event) {
       event.preventDefault();
     }
-
+  
+    this.registerForm.patchValue({ adminPassword: '' });
+  
+    this.registerForm
+      .get('adminPassword')
+      ?.setValidators([Validators.required]);
+    this.registerForm.get('adminPassword')?.updateValueAndValidity();
+  
     this.showAdminDialog = true;
+  }
+
+  toggleAdminSelection(event: MouseEvent): void {
+    const checkbox = event.target as HTMLInputElement;
+    
+    if (checkbox.checked) {
+      this.promptAdminPassword(event);
+    } else {
+      this.isAdminSelected = false;
+      this.registerForm.patchValue({ isAdmin: false });
+    }
   }
 
   confirmAdminPassword(): void {
@@ -95,6 +138,9 @@ export class RegisterComponent {
       this.isAdminSelected = true;
       this.registerForm.patchValue({ isAdmin: true });
       this.showAdminDialog = false;
+
+      this.registerForm.get('adminPassword')?.clearValidators();
+      this.registerForm.get('adminPassword')?.updateValueAndValidity();
     } else {
       alert('Contraseña incorrecta');
     }
@@ -104,6 +150,9 @@ export class RegisterComponent {
     this.showAdminDialog = false;
     this.isAdminSelected = false;
     this.registerForm.patchValue({ isAdmin: false });
+
+    this.registerForm.get('adminPassword')?.clearValidators();
+    this.registerForm.get('adminPassword')?.updateValueAndValidity();
   }
 
   onSubmit(): void {
@@ -115,17 +164,23 @@ export class RegisterComponent {
       if (confirmed) {
         const formValue = this.registerForm.value;
 
-        let finalRole = formValue.role;
-
-        if (this.isAdminSelected && this.selectedRole === 'Terapeuta') {
-          finalRole = 'ADMIN';
+        if (this.selectedRole === 'Terapeuta') {
+          formValue.paymentPerSession = formValue.paymentPerSession 
+          ? (Number(formValue.paymentPerSession) * 1.0) 
+          : null;
+          formValue.paymentPerMonth = null;
+        } else if (this.selectedRole === 'Secretario/a') {
+          formValue.paymentPerMonth = formValue.paymentPerMonth 
+          ? (Number(formValue.paymentPerMonth) * 1.0) 
+          : 0.0;
+          formValue.paymentPerSession = null;
+        } else {
+          formValue.paymentPerSession = null;
+          formValue.paymentPerMonth = null;
         }
-
-        formValue.role = finalRole;
 
         this.registerService.registerUser(formValue).subscribe(
           (response) => {
-            console.log('Registro exitoso', response);
             this.router.navigate(['/users']);
           },
           (error) => {
