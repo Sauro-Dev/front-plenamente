@@ -19,21 +19,18 @@ export class AreasRegisterComponent {
   errorMessage = '';
   successMessage = '';
 
-  constructor(
-    private areasRegisterService: AreasRegisterService,
-    private router: Router // Inyectar el Router aquí
-  ) {}
+  constructor(private areasRegisterService: AreasRegisterService) {}
 
   onSubmit() {
     if (this.name && this.description) {
       this.areasRegisterService.registerArea(this.name, this.description).subscribe(
         (response) => {
           this.successMessage = 'El área de intervención se ha registrado correctamente.';
+          // Puedes agregar un temporizador para ocultar el mensaje después de unos segundos
           setTimeout(() => {
             this.successMessage = '';
-            // Redirigir a la página anterior (puedes cambiar la ruta si es necesario)
-            this.router.navigate(['/areas']);
-          }, 3000); // Puedes ajustar el tiempo de espera si lo deseas
+            // Aquí puedes redirigir al usuario a la lista de áreas si lo deseas
+          }, 3000);
         },
         (error) => {
           this.errorMessage = 'Ocurrió un error al registrar el área.';
@@ -44,11 +41,14 @@ export class AreasRegisterComponent {
     }
   }
 
+  // Función para cancelar con confirmación
   onCancel() {
     const confirmation = confirm('¿Estás seguro de que deseas cancelar el registro?');
     if (confirmation) {
-      // Redirigir de inmediato a la página anterior al cancelar
-      this.router.navigate(['/areas']);
+      this.name = '';
+      this.description = '';
+      this.errorMessage = '';
+      this.successMessage = '';
     }
   }
 }
