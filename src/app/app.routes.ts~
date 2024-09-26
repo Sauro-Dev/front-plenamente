@@ -1,6 +1,21 @@
 import { Routes } from '@angular/router';
+import { UsersComponent } from './components/users/users/users.component';
 
 export const routes: Routes = [
+  // Rutas definidas
+  {
+    path: 'users',
+    component: UsersComponent,
+    data: { breadcrumb: 'Users' },
+  },
+  {
+    path: 'users/register',
+    loadComponent: () =>
+      import('./components/users/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
+    data: { breadcrumb: 'Registrar Usuario' }, // Breadcrumb para registro de usuario
+  },
   {
     path: 'login',
     loadComponent: () =>
@@ -16,7 +31,7 @@ export const routes: Routes = [
   {
     path: 'users',
     loadChildren: () =>
-      import('./components/users/users.routes').then((m) => m.usersRoutes),
+      import('./components/users/users.rutes'),
 
   },
   {
