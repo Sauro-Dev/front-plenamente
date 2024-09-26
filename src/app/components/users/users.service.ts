@@ -15,26 +15,40 @@ export class UsersService {
   login(username: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }).pipe(
       tap(response => {
-        // Guardamos el token en localStorage
-        localStorage.setItem('token', response.token);
+        if (this.isBrowser()) {
+          // Guardamos el token en localStorage solo si estamos en el navegador
+          localStorage.setItem('token', response.token);
+        }
       })
     );
   }
 
   // Método para obtener usuarios desde el backend
   getUsers(): Observable<any[]> {
-    const token: string | null = localStorage.getItem('token');  // Obtiene el token del localStorage
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    let token: string | null = null;
 
-    return this.http.get<any[]>(`${this.apiUrl}/all`, { headers });  // Corrige la opción `headers`
+    if (this.isBrowser()) {
+      token = localStorage.getItem('token');  // Obtiene el token solo si estamos en el navegador
+    }
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any[]>(`${this.apiUrl}/all`, { headers });
   }
 
   // Método para obtener un usuario por su ID
   getUserDetails(userId: number): Observable<any> {
-    const token: string | null = localStorage.getItem('token'); // Obtiene el token de localStorage
-    const headers: HttpHeaders = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    let token: string | null = null;
 
-    return this.http.get<any>(`${this.apiUrl}/${userId}`, { headers });
+    if (this.isBrowser()) {
+      token = localStorage.getItem('token');  // Obtiene el token solo si estamos en el navegador
+    }
+
+    const headers: HttpHeaders = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.apiUrl}/me`, { headers });
   }
 
+  // Método para verificar si estamos en el navegador o no
+  private isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+  }
 }
