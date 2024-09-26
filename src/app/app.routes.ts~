@@ -26,9 +26,4 @@ export const routes: Routes = [
         (m) => m.CalendarComponent
       ),
   },
-  {
-    path: 'areas',
-    loadChildren: () =>
-      import('./components/areas/areas.routes'),
-  },
 ];
