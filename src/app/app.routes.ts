@@ -45,9 +45,4 @@ export const routes: Routes = [
       ),
     data: { breadcrumb: 'Calendar' }, // Breadcrumb para calendario
   },
-  {
-    path: '**',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
 ];
