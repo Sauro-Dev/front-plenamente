@@ -38,13 +38,24 @@ export const routes: Routes = [
     data: { breadcrumb: 'Calendar' }, // Breadcrumb para calendario
   },
   {
+    path: 'areas',
+    loadComponent: () =>
+      import('./components/areas/areas/areas.component').then(
+        (m) => m.AreasComponent
+      ), // Esto carga el componente de áreas
+    data: { breadcrumb: 'Áreas' }, // Breadcrumb para areas
+  },
+  {
+    path: 'areas/areas-register',
+    loadComponent: () =>
+      import('./components/areas/areas-register/areas-register.component').then(
+        (m) => m.AreasRegisterComponent
+      ),
+    data: { breadcrumb: 'Registrar Área' },
+  },
+  {
     path: '**',
     redirectTo: 'login',
     pathMatch: 'full',
-  },
-  {
-    path: 'areas',
-    loadChildren: () =>
-      import('./components/areas/areas.routes'),
-  },
+  }
 ];
