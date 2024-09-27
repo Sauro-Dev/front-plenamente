@@ -3,11 +3,12 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './layouts/navbar/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
+import { BreadcrumbComponent } from './layouts/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, CommonModule],
+  imports: [RouterOutlet, NavbarComponent, CommonModule, BreadcrumbComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

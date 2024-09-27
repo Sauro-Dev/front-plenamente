@@ -1,6 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,4 +11,11 @@ import { RouterLink } from '@angular/router';
 })
 export class NavbarComponent {
 
+  constructor(private router: Router) {}
+
+  logout() {
+    localStorage.removeItem('token');
+    
+    this.router.navigate(['/login']);
+  }
 }
