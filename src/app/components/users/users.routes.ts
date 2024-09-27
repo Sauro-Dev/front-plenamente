@@ -11,4 +11,9 @@ export default [
     loadComponent: () =>
       import('./register/register.component').then((m) => m.RegisterComponent),
   },
-] as Routes
+  {
+    path: 'details/:id', // Aquí agregamos la ruta de detalles con un parámetro dinámico
+    loadComponent: () =>
+      import('./users-details/users-details.component').then((m) => m.UsersDetailsComponent),
+  },
+] as Routes;

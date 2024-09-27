@@ -1,0 +1,30 @@
+import { Component, OnInit } from '@angular/core';
+import { RouterLink} from "@angular/router";
+import {UsersService} from "../users.service";
+import {CommonModule} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
+
+@Component({
+  selector: 'app-users-details',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './users-details.component.html',
+  styleUrl: './users-details.component.css'
+})
+export class UsersDetailsComponent implements OnInit {
+  userId: string | null = null;
+  user: any;
+
+  constructor(private route: ActivatedRoute, private usersService: UsersService) {}
+
+  ngOnInit(): void {
+    // Capturar el ID de la ruta
+    this.userId = this.route.snapshot.paramMap.get('id');
+    if (this.userId) {
+      // Llamar al servicio para obtener los detalles del usuario
+      this.usersService.getUserById(this.userId).subscribe((data) => {
+        this.user = data;
+      });
+    }
+  }
+}
