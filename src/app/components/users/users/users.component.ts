@@ -48,7 +48,7 @@ export class UsersComponent implements OnInit {
   // Función de búsqueda
   onSearch(): void {
     this.filteredUsers = this.users.filter(user =>
-      user.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+      user.username.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
     this.currentPage = 1; // Resetear a la primera página
     this.paginate();

@@ -35,7 +35,7 @@ export class UsersService {
     return this.http.get<any[]>(`${this.apiUrl}/all`, { headers });
   }
 
-  // Método para obtener un usuario por su ID
+// Método para obtener un usuario por su ID
   getUserDetails(userId: number): Observable<any> {
     let token: string | null = null;
 
@@ -44,7 +44,8 @@ export class UsersService {
     }
 
     const headers: HttpHeaders = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any>(`${this.apiUrl}/me`, { headers });
+    // Aquí construimos la URL correctamente con el ID
+    return this.http.get<any>(`${this.apiUrl}/select/${userId}`, { headers });
   }
 
   // Método para verificar si estamos en el navegador o no

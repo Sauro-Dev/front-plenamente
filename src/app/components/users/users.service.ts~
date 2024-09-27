@@ -44,7 +44,7 @@ export class UsersService {
     }
 
     const headers: HttpHeaders = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<any>(`${this.apiUrl}/all`, { headers });
+    return this.http.get<any>(`${this.apiUrl}/select/{id}`, { headers });
   }
 
   // Método para verificar si estamos en el navegador o no

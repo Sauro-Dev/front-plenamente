@@ -50,6 +50,7 @@ export class UsersComponent implements OnInit {
     this.filteredUsers = this.users.filter(user =>
       user.name.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
+    this.currentPage = 1; // Resetear a la primera página
     this.paginate();
   }
 
