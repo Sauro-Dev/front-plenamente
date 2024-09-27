@@ -16,6 +16,14 @@ export const routes: Routes = [
       data: { breadcrumb: 'Registrar Usuario' },
   },
   {
+    path: 'users/details/:id',  // Ruta para los detalles del usuario
+    loadComponent: () =>
+      import('./components/users/users-details/users-details.component').then(
+        (m) => m.UsersDetailsComponent
+      ),
+    data: { breadcrumb: 'Detalles del Usuario' }, // Breadcrumb para detalles de usuario
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./components/auth/login/login.component').then(
@@ -36,8 +44,19 @@ export const routes: Routes = [
       ),
   },
   {
-    path: '**',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    path: 'areas',
+    loadComponent: () =>
+      import('./components/areas/areas/areas.component').then(
+        (m) => m.AreasComponent
+      ), // Esto carga el componente de áreas
+    data: { breadcrumb: 'Áreas' }, // Breadcrumb para areas
+  },
+  {
+    path: 'areas/areas-register',
+    loadComponent: () =>
+      import('./components/areas/areas-register/areas-register.component').then(
+        (m) => m.AreasRegisterComponent
+      ),
+    data: { breadcrumb: 'Registrar Área' },
   },
 ];

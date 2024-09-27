@@ -1,0 +1,14 @@
+<div class="container mx-auto px-4 py-6">
+  <div class="bg-gray-200 rounded-lg shadow-lg p-6 text-center">
+    <h2 class="text-2xl font-semibold mb-4">{{ user?.name }} {{ user?.paternalSurname }} {{ user?.maternalSurname }}</h2>
+    <p class="text-green-500">ID: {{ user?.id }}</p>
+    <p class="text-green-500">Email: {{ user?.email }}</p>
+    <p class="text-gray-700">DNI: {{ user?.dni }}</p>
+    <p class="text-gray-700">Teléfono: {{ user?.phone }}</p>
+    <p class="text-gray-700">Teléfono de Respaldo: {{ user?.phoneBackup }}</p>
+    <p class="text-gray-700">Dirección: {{ user?.address }}</p>
+    <p class="text-gray-700">Rol: {{ user?.role }}</p>
+    <a class="text-blue-600 underline mt-4 block" routerLink="/users">Volver a la lista</a>
+  </div>
+</div>
+
