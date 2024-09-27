@@ -46,8 +46,13 @@ export const routes: Routes = [
     data: { breadcrumb: 'Áreas' }, // Breadcrumb para areas
   },
   {
-    path: '**',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  }
+    path: 'areas/areas-register',
+    loadComponent: () =>
+      import('./components/areas/areas-register/areas-register.component').then(
+        (m) => m.AreasRegisterComponent
+      ),
+    data: { breadcrumb: 'Registrar Área' },
+  },
+
+
 ];

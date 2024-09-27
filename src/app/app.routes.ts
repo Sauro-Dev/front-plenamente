@@ -53,9 +53,4 @@ export const routes: Routes = [
       ),
     data: { breadcrumb: 'Registrar Área' },
   },
-  {
-    path: '**',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  }
 ];
