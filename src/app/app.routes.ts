@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { UsersComponent } from './components/users/users/users.component';
+import {UsersComponent} from "./components/users/users/users.component";
 
 export const routes: Routes = [
   // Rutas definidas
@@ -14,7 +14,7 @@ export const routes: Routes = [
       import('./components/users/register/register.component').then(
         (m) => m.RegisterComponent
       ),
-    data: { breadcrumb: 'Registrar Usuario' }, // Breadcrumb para registro de usuario
+    data: { breadcrumb: 'Registrar Usuario' },
   },
   {
     path: 'users/details/:id',  // Ruta para los detalles del usuario
@@ -22,7 +22,7 @@ export const routes: Routes = [
       import('./components/users/users-details/users-details.component').then(
         (m) => m.UsersDetailsComponent
       ),
-    data: { breadcrumb: 'Detalles del Usuario' }, // Breadcrumb para detalles de usuario
+    data: { breadcrumb: 'Detalles del Usuario' },
   },
   {
     path: 'login',
@@ -30,7 +30,7 @@ export const routes: Routes = [
       import('./components/auth/login/login.component').then(
         (m) => m.LoginComponent
       ),
-    data: { breadcrumb: 'Login' }, // Breadcrumb para login
+    data: { breadcrumb: 'Login' },
   },
   {
     path: '',
@@ -43,22 +43,18 @@ export const routes: Routes = [
       import('./components/calendar/calendar/calendar.component').then(
         (m) => m.CalendarComponent
       ),
-    data: { breadcrumb: 'Calendar' }, // Breadcrumb para calendario
+    data: { breadcrumb: 'Calendar' },
   },
   {
     path: 'areas',
-    loadComponent: () =>
-      import('./components/areas/areas/areas.component').then(
-        (m) => m.AreasComponent
-      ), // Esto carga el componente de áreas
-    data: { breadcrumb: 'Áreas' }, // Breadcrumb para areas
+    loadChildren: () =>
+      import('./components/areas/areas.routes').then(
+        (m) => m.default // Importa todas las rutas definidas en areas.routes.ts
+      ),
+    data: { breadcrumb: 'Áreas' },
   },
   {
-    path: 'areas/areas-register',
-    loadComponent: () =>
-      import('./components/areas/areas-register/areas-register.component').then(
-        (m) => m.AreasRegisterComponent
-      ),
-    data: { breadcrumb: 'Registrar Área' },
+    path: '**',
+    redirectTo: 'login',
   },
 ];
