@@ -1,3 +1,5 @@
-<app-navbar></app-navbar> <!-- Aquí se carga tu navbar -->
-<app-breadcrumb></app-breadcrumb> <!-- Aquí se carga el breadcrumb -->
-<router-outlet></router-outlet> <!-- Aquí irá el contenido de las rutas -->
+<nav *ngIf="!isLoginPage">
+    <app-navbar></app-navbar>
+    <app-breadcrumb></app-breadcrumb>
+</nav>
+<router-outlet></router-outlet>
