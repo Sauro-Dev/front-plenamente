@@ -29,7 +29,7 @@ export class MaterialRegisterComponent {
       idMaterial: ['', Validators.required],
       nombre: ['', Validators.required],
       estado: ['', Validators.required],
-      stock: [0, [Validators.required, Validators.min(1)]],
+      stock: [0, [Validators.required, Validators.min(0)]],
       esCompleto: [false],
       esSoporte: [false],
       descripcion: [''],

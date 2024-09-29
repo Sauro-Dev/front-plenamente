@@ -33,7 +33,11 @@
             <label class="block text-lg font-medium text-gray-700">Stock</label>
             <input type="number"
                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                formControlName="stock" placeholder="Stock">
+                formControlName="stock" placeholder="Stock" min="0">
+            <small class="text-red-600 mt-1"
+                *ngIf="registerForm.get('stock')?.invalid && registerForm.get('stock')?.touched">
+                El stock no puede ser negativo.
+            </small>
         </div>
 
         <!-- ¿Es Completo? -->
@@ -58,8 +62,11 @@
 
         <!-- Botones -->
         <div class="flex gap-5 justify-center mt-10 mb-10">
-            <button type="submit"
-                class="bg-blue-800 text-white px-5 py-2 rounded-lg text-xl hover:bg-blue-700">Guardar</button>
+            <button type="submit" [disabled]="registerForm.invalid"
+                [ngClass]="{'bg-gray-500': registerForm.invalid, 'bg-blue-800': registerForm.valid, 'text-white': true }"
+                class="px-5 py-2 rounded-lg text-xl hover:bg-blue-700">
+                Guardar
+            </button>
             <button type="button" (click)="onCancel()"
                 class="bg-gray-500 text-white px-5 py-2 rounded-lg text-xl hover:bg-gray-400">Cancelar</button>
         </div>
