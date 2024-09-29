@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { UsersComponent } from './components/users/users/users.component';
+import {UsersComponent} from "./components/users/users/users.component";
 
 export const routes: Routes = [
   {
@@ -21,7 +21,7 @@ export const routes: Routes = [
       import('./components/users/users-details/users-details.component').then(
         (m) => m.UsersDetailsComponent
       ),
-    data: { breadcrumb: 'Detalles del Usuario' }, // Breadcrumb para detalles de usuario
+    data: { breadcrumb: 'Detalles del Usuario' },
   },
   {
     path: 'login',
