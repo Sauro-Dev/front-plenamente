@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: 'users',
+    data: { breadcrumb: 'Usuarios'},
     children: [
       {
         path: '',
@@ -17,6 +18,7 @@ export const routes: Routes = [
           import('./components/users/register/register.component').then(
             (m) => m.RegisterComponent
           ),
+        data: { breadcrumb: 'Registrar Usuario' },
       },
       {
         path: 'details/:id',
@@ -34,6 +36,7 @@ export const routes: Routes = [
       import('./components/auth/login/login.component').then(
         (m) => m.LoginComponent
       ),
+    data: { breadcrumb: 'Iniciar Sesión' },
   },
   {
     path: '',
@@ -46,9 +49,11 @@ export const routes: Routes = [
       import('./components/calendar/calendar/calendar.component').then(
         (m) => m.CalendarComponent
       ),
+    data: { breadcrumb: 'Calendario' },
   },
   {
     path: 'areas',
+    data: { breadcrumb: 'Áreas' },
     children: [
       {
         path: '',
@@ -63,11 +68,13 @@ export const routes: Routes = [
           import(
             './components/areas/areas-register/areas-register.component'
           ).then((m) => m.AreasRegisterComponent),
+        data: { breadcrumb: 'Registrar Área' },
       },
     ],
   },
   {
     path: 'rooms',
+    data: {breadcrumb: 'Ambientes'},
     children: [
       {
         path: '',
@@ -82,6 +89,7 @@ export const routes: Routes = [
           import('./components/rooms/add-room/add-room.component').then(
             (m) => m.AddRoomComponent
           ),
+        data: { breadcrumb: 'Registrar Ambiente'},
       },
       {
         path: 'edit-room',
@@ -89,11 +97,13 @@ export const routes: Routes = [
           import('./components/rooms/edit-room/edit-room.component').then(
             (m) => m.EditRoomComponent
           ),
+        data: { breadcrumb: 'Editar Sala' },
       },
     ],
   },
   {
     path: 'storage',
+    data: { breadcrumb: 'Inventario'},
     children: [
       {
         path: '',
@@ -108,6 +118,7 @@ export const routes: Routes = [
           import(
             './components/storage/material-register/material-register.component'
           ).then((m) => m.MaterialRegisterComponent),
+        data: { breadcrumb: 'Registrar Material'},
       },
     ],
   },
