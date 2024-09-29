@@ -7,7 +7,7 @@ import {environment} from "../../enviroment";
   providedIn: 'root'
 })
 export class AreasService {
-  private apiUrl: string = `${environment.apiUrl}intervention-areas`;
+  private apiUrl: string = `${environment.apiUrl}/intervention-areas`;
 
   constructor(private http: HttpClient) {}
 
