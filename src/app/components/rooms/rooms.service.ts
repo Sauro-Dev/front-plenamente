@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';// Asegúrate de tener un modelo Room
 import { Room } from './room';
 import { environment } from '../../enviroment';
@@ -17,8 +17,8 @@ export class RoomsService {
     return this.http.post<Room>(`${this.apiUrl}/register`, room);
   }
 
-  // Método para listar todas las salas
-  listRooms(): Observable<Room[]> {
-    return this.http.get<Room[]>(`${this.apiUrl}/all`);
+  // Método para obtener la lista de ambientes
+  getRooms(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/all`);
   }
 }
