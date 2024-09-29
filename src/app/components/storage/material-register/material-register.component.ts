@@ -1,7 +1,7 @@
-import { MaterialRegisterService } from './material-register.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { StorageService } from '../storage.service';
 
 @Component({
   selector: 'app-material-register',
@@ -14,7 +14,7 @@ export class MaterialRegisterComponent {
   materialForm: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private MaterialRegisterService: MaterialRegisterService,
+    private StorageService: StorageService,
     private router: Router
   ) {
     this.materialForm = this.fb.group(

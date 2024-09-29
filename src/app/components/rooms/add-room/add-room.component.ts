@@ -8,6 +8,7 @@ import {
 import { Room } from '../room';
 import { RoomsService } from '../rooms.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-room',
@@ -19,7 +20,7 @@ import { CommonModule } from '@angular/common';
 export class AddRoomComponent {
   roomForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private roomsService: RoomsService) {
+  constructor(private fb: FormBuilder, private roomsService: RoomsService, private router: Router) {
     this.roomForm = this.fb.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
@@ -32,16 +33,22 @@ export class AddRoomComponent {
       const newRoom: Room = this.roomForm.value;
       this.roomsService.registerRoom(newRoom).subscribe(
         (room) => {
-          console.log('Sala registrada', room);
+          alert('Sala registrada correctamente');
+          this.router.navigate(['/rooms']); // Redirigimos a la página de salas
         },
         (error) => {
           console.error('Error al registrar la sala', error);
+          alert('Hubo un error al registrar la sala');
         }
       );
     }
   }
 
   onCancel(): void {
-    this.roomForm.reset();
+    const confirmCancel = confirm('¿Estás seguro de que deseas cancelar el registro?');
+    if (confirmCancel) {
+      this.roomForm.reset();
+      this.router.navigate(['/rooms']); // Redirigimos a la página de salas
+    }
   }
 }
