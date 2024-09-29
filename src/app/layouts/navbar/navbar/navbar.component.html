@@ -7,14 +7,16 @@
     <ul class="text-white flex text-4xl">
       <i class="ti ti-calendar mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
       <i class="ti ti-clipboard-smile mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
-      <i class="ti ti-door mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
-      <i class="ti ti-packages mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
+      <i class="ti ti-door mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer "
+        [routerLink]="'/rooms'"></i>
+      <i class="ti ti-packages mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
+        [routerLink]="'/storage'"></i>
       <i class="ti ti-cash mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"></i>
       <i class="ti ti-users mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
         [routerLink]="'/users'"></i>
       <i class="ti ti-cash-register mx-5 hover:scale-125 duration-150 transition-transform"></i>
       <i class="ti ti-bulb mx-5 hover:scale-125 duration-150 transition-transform cursor-pointer"
-         [routerLink]="'/areas'"></i>
+        [routerLink]="'/areas'"></i>
     </ul>
   </nav>
   <i class="ti ti-logout text-white text-4xl mr-10 hover:scale-125 duration-150 transition-transform cursor-pointer"
