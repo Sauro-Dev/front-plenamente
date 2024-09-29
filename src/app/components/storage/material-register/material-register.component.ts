@@ -1,57 +1,66 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { StorageService } from '../storage.service';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-material-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './material-register.component.html',
-  styleUrl: './material-register.component.css',
+  styleUrls: ['./material-register.component.css'],
 })
 export class MaterialRegisterComponent {
-  materialForm: FormGroup;
+  registerForm: FormGroup;
+  estados: string[] = ['NUEVO', 'BUENO', 'REGULAR', 'DESGASTADO', 'ROTO'];
+
   constructor(
     private fb: FormBuilder,
-    private StorageService: StorageService,
+    private storageService: StorageService,
     private router: Router
   ) {
-    this.materialForm = this.fb.group(
-      {
-        username: [''],
-        password: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
-        name: [''],
-        lastNamePaterno: ['', Validators.required],
-        lastNameMaterno: ['', Validators.required],
-        dni: ['', [Validators.required, Validators.pattern('\\d{8}')]],
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(
-              /^[a-zA-ZñÑ0-9._%+-]+@[a-zA-ZñÑ0-9.-]+\.[a-zA-Z]{2,4}$/
-            ),
-          ],
-        ],
-        address: [''],
-        birthdate: ['', Validators.required],
-        phone: ['', Validators.required],
-        backupPhone: ['', Validators.required],
-        role: ['', Validators.required],
-        isAdmin: [false],
-        paymentPerSession: [null],
-        paymentPerMonth: [null],
-        adminPassword: [''],
-      },
+    this.registerForm = this.fb.group({
+      idMaterial: ['', Validators.required],
+      nombre: ['', Validators.required],
+      estado: ['', Validators.required],
+      stock: [0, [Validators.required, Validators.min(1)]],
+      esCompleto: [false],
+      esSoporte: [false],
+      descripcion: [''],
+    });
+  }
+
+  onSubmit(): void {
+    if (this.registerForm.valid) {
+      const formValue = this.registerForm.value;
+      this.storageService.registerMaterial(formValue).subscribe(
+        (response) => {
+          alert('Material registrado exitosamente');
+          this.router.navigate(['/storage']);
+        },
+        (error) => {
+          console.error('Error al registrar el material', error);
+          alert('Hubo un error al registrar el material');
+        }
+      );
+    } else {
+      console.error('Formulario inválido');
+    }
+  }
+
+  onCancel(): void {
+    const confirmCancel = confirm(
+      '¿Estás seguro de que deseas cancelar el registro?'
     );
-  }
-
-  onSubmit():void{
-
-  }
-  onCancel():void{
-    
+    if (confirmCancel) {
+      this.registerForm.reset();
+      this.router.navigate(['/storage']);
+    }
   }
 }

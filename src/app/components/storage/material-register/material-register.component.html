@@ -1,21 +1,31 @@
 <section class="flex flex-col items-center mt-12 w-full max-w-xl mx-auto">
-    <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <h1 class="text-3xl font-bold mb-10 text-center">Registrar Material</h1>
+
+        <!-- ID Material -->
+        <div class="mb-5 relative">
+            <label class="block text-lg font-medium text-gray-700">ID Material</label>
+            <input type="text"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                formControlName="idMaterial" placeholder="ID Material">
+        </div>
 
         <!-- Nombre -->
         <div class="mb-5 relative">
             <label class="block text-lg font-medium text-gray-700">Nombre</label>
             <input type="text"
                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                formControlName="name" placeholder="Nombre del Material">
+                formControlName="nombre" placeholder="Nombre">
         </div>
 
         <!-- Estado -->
         <div class="mb-5 relative">
             <label class="block text-lg font-medium text-gray-700">Estado</label>
-            <input type="text"
+            <select
                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                formControlName="status" placeholder="Estado del Material">
+                formControlName="estado">
+                <option *ngFor="let status of estados" [value]="status">{{ status }}</option>
+            </select>
         </div>
 
         <!-- Stock -->
@@ -23,33 +33,19 @@
             <label class="block text-lg font-medium text-gray-700">Stock</label>
             <input type="number"
                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                formControlName="stock" placeholder="Stock disponible" step="1" min="0">
+                formControlName="stock" placeholder="Stock">
         </div>
 
-        <!-- Completo -->
-        <div class="mb-5 relative">
-            <label class="block text-lg font-medium text-gray-700">¿Está completo?</label>
-            <div class="flex gap-5">
-                <label>
-                    <input type="radio" formControlName="isComplete" value="true" class="mr-2"> Sí
-                </label>
-                <label>
-                    <input type="radio" formControlName="isComplete" value="false" class="mr-2"> No
-                </label>
-            </div>
+        <!-- ¿Es Completo? -->
+        <div class="mb-5 relative flex items-center">
+            <label class="block text-lg font-medium text-gray-700 mr-2">¿Es Completo?</label>
+            <input type="checkbox" class="border border-gray-300" formControlName="esCompleto">
         </div>
 
-        <!-- Soporte -->
-        <div class="mb-5 relative">
-            <label class="block text-lg font-medium text-gray-700">¿Es de soporte?</label>
-            <div class="flex gap-5">
-                <label>
-                    <input type="radio" formControlName="isSupport" value="true" class="mr-2"> Sí
-                </label>
-                <label>
-                    <input type="radio" formControlName="isSupport" value="false" class="mr-2"> No
-                </label>
-            </div>
+        <!-- ¿Es de Soporte? -->
+        <div class="mb-5 relative flex items-center">
+            <label class="block text-lg font-medium text-gray-700 mr-2">¿Es de Soporte?</label>
+            <input type="checkbox" class="border border-gray-300" formControlName="esSoporte">
         </div>
 
         <!-- Descripción -->
@@ -57,7 +53,7 @@
             <label class="block text-lg font-medium text-gray-700">Descripción</label>
             <textarea
                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                formControlName="description" placeholder="Descripción del Material" rows="4"></textarea>
+                formControlName="descripcion" placeholder="Descripción"></textarea>
         </div>
 
         <!-- Botones -->
