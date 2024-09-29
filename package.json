@@ -25,6 +25,7 @@
     "express": "^4.19.2",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.3",
+    "xng-breadcrumb": "^11.0.0",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {

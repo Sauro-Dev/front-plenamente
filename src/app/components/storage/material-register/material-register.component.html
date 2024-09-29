@@ -1,0 +1,71 @@
+<section class="flex flex-col items-center mt-12 w-full max-w-xl mx-auto">
+    <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
+        <h1 class="text-3xl font-bold mb-10 text-center">Registrar Material</h1>
+
+        <!-- Nombre -->
+        <div class="mb-5 relative">
+            <label class="block text-lg font-medium text-gray-700">Nombre</label>
+            <input type="text"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                formControlName="name" placeholder="Nombre del Material">
+        </div>
+
+        <!-- Estado -->
+        <div class="mb-5 relative">
+            <label class="block text-lg font-medium text-gray-700">Estado</label>
+            <input type="text"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                formControlName="status" placeholder="Estado del Material">
+        </div>
+
+        <!-- Stock -->
+        <div class="mb-5 relative">
+            <label class="block text-lg font-medium text-gray-700">Stock</label>
+            <input type="number"
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                formControlName="stock" placeholder="Stock disponible" step="1" min="0">
+        </div>
+
+        <!-- Completo -->
+        <div class="mb-5 relative">
+            <label class="block text-lg font-medium text-gray-700">¿Está completo?</label>
+            <div class="flex gap-5">
+                <label>
+                    <input type="radio" formControlName="isComplete" value="true" class="mr-2"> Sí
+                </label>
+                <label>
+                    <input type="radio" formControlName="isComplete" value="false" class="mr-2"> No
+                </label>
+            </div>
+        </div>
+
+        <!-- Soporte -->
+        <div class="mb-5 relative">
+            <label class="block text-lg font-medium text-gray-700">¿Es de soporte?</label>
+            <div class="flex gap-5">
+                <label>
+                    <input type="radio" formControlName="isSupport" value="true" class="mr-2"> Sí
+                </label>
+                <label>
+                    <input type="radio" formControlName="isSupport" value="false" class="mr-2"> No
+                </label>
+            </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-5 relative">
+            <label class="block text-lg font-medium text-gray-700">Descripción</label>
+            <textarea
+                class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                formControlName="description" placeholder="Descripción del Material" rows="4"></textarea>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex gap-5 justify-center mt-10 mb-10">
+            <button type="submit"
+                class="bg-blue-800 text-white px-5 py-2 rounded-lg text-xl hover:bg-blue-700">Guardar</button>
+            <button type="button" (click)="onCancel()"
+                class="bg-gray-500 text-white px-5 py-2 rounded-lg text-xl hover:bg-gray-400">Cancelar</button>
+        </div>
+    </form>
+</section>

@@ -5,7 +5,6 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UsersComponent,
-    data: { breadcrumb: 'Usuarios' },
   },
   {
     path: 'users/register',
@@ -13,15 +12,13 @@ export const routes: Routes = [
       import('./components/users/register/register.component').then(
         (m) => m.RegisterComponent
       ),
-      data: { breadcrumb: 'Registrar Usuario' },
   },
   {
-    path: 'users/details/:id',  // Ruta para los detalles del usuario
+    path: 'users/details/:id',
     loadComponent: () =>
       import('./components/users/users-details/users-details.component').then(
         (m) => m.UsersDetailsComponent
       ),
-    data: { breadcrumb: 'Detalles del Usuario' }, // Breadcrumb para detalles de usuario
   },
   {
     path: 'login',
@@ -29,7 +26,6 @@ export const routes: Routes = [
       import('./components/auth/login/login.component').then(
         (m) => m.LoginComponent
       ),
-      data: { breadcrumb: 'Inicio de Sesión' },
   },
   {
     path: '',
@@ -48,8 +44,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/areas/areas/areas.component').then(
         (m) => m.AreasComponent
-      ), // Esto carga el componente de áreas
-    data: { breadcrumb: 'Áreas' }, // Breadcrumb para areas
+      ),
   },
   {
     path: 'areas/areas-register',
@@ -57,6 +52,26 @@ export const routes: Routes = [
       import('./components/areas/areas-register/areas-register.component').then(
         (m) => m.AreasRegisterComponent
       ),
-    data: { breadcrumb: 'Registrar Área' },
+  },
+  {
+    path: 'rooms',
+    loadComponent: () =>
+      import('./components/rooms/rooms/rooms.component').then(
+        (m) => m.RoomsComponent
+      ),
+  },
+  {
+    path: 'storage',
+    loadComponent: () =>
+      import('./components/storage/storage/storage.component').then(
+        (m) => m.StorageComponent
+      ),
+  },
+  {
+    path: 'storage/material-register',
+    loadComponent: () =>
+      import('./components/storage/material-register/material-register.component').then(
+        (m) => m.MaterialRegisterComponent
+      ),
   },
 ];
