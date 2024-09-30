@@ -19,4 +19,11 @@ export class StorageService {
   getMaterials(): Observable<Material[]> {
     return this.http.get<Material[]>(`${this.apiUrl}/all`);
   }
+  getMaterialById(id: string): Observable<Material> {
+    return this.http.get<Material>(`${this.apiUrl}/select/{idMaterial}`);
+  }
+
+  updateMaterial(material: Material): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/update/{idMaterial}`, material);
+  }
 }

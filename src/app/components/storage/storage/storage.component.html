@@ -12,6 +12,7 @@
   <table class="min-w-full table-auto">
     <thead>
     <tr>
+      <th class="px-4 py-2">Acciones</th> <!-- Nueva columna para el ícono de editar -->
       <th class="px-4 py-2">ID MATERIAL</th>
       <th class="px-4 py-2">NOMBRE</th>
       <th class="px-4 py-2">STOCK</th>
@@ -19,10 +20,12 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngIf="paginatedMaterials.length === 0">
-      <td colspan="4" class="text-center py-4">No se encontraron resultados.</td>
-    </tr>
     <tr *ngFor="let material of paginatedMaterials">
+      <td>
+        <button [routerLink]="['storage/material-edit/:idMaterial', material.idMaterial]">
+          <i class="fa fa-pencil" aria-hidden="true"></i> <!-- Icono de edición -->
+        </button>
+      </td>
       <td class="border px-4 py-2">{{ material.idMaterial }}</td>
       <td class="border px-4 py-2">{{ material.nombre }}</td>
       <td class="border px-4 py-2">{{ material.stock }}</td>

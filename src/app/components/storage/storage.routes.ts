@@ -12,7 +12,7 @@ export default [
       import('./material-register/material-register.component').then((m) => m.MaterialRegisterComponent),
   },
   {
-    path: 'storage/material-edit',
+    path: 'storage/material-edit/:idMaterial',
     loadComponent: () =>
       import('./material-edit/material-edit.component').then((m) => m.MaterialEditComponent),
   },

@@ -120,6 +120,7 @@ export const routes: Routes = [
           ).then((m) => m.MaterialRegisterComponent),
         data: { breadcrumb: 'Registrar Material'},
       },
+
     ],
   },
 ];
