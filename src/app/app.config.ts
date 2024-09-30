@@ -7,11 +7,12 @@ import { importProvidersFrom } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
-    provideHttpClient(withFetch()), 
+    provideHttpClient(withFetch()),
     importProvidersFrom(HttpClientModule, FormsModule, ReactiveFormsModule),
     provideAnimations(),
   ],

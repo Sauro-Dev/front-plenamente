@@ -16,7 +16,7 @@ export class StorageService {
     return this.http.post<Material>(`${this.apiUrl}/register`, material);
   }
 
-  getAllMaterials(): Observable<Material[]> {
+  getMaterials(): Observable<Material[]> {
     return this.http.get<Material[]>(`${this.apiUrl}/all`);
   }
 }
