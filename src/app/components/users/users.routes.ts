@@ -1,20 +1,24 @@
 import { Routes } from '@angular/router';
-import { UsersComponent } from './users/users.component';
 
 export default [
   {
     path: '',
-    component: UsersComponent,
+    loadComponent: () =>
+      import('./users/users.component').then((m) => m.UsersComponent),
     children: [
       {
         path: 'register',
         loadComponent: () =>
-          import('./register/register.component').then((m) => m.RegisterComponent),
+          import('./register/register.component').then(
+            (m) => m.RegisterComponent
+          ),
       },
       {
         path: 'details/:id',
         loadComponent: () =>
-          import('./users-details/users-details.component').then((m) => m.UsersDetailsComponent),
+          import('./users-details/users-details.component').then(
+            (m) => m.UsersDetailsComponent
+          ),
       },
     ],
   },

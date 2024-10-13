@@ -22,7 +22,7 @@
     <tbody>
     <tr *ngFor="let material of paginatedMaterials">
       <td>
-        <button [routerLink]="['storage/material-edit/:idMaterial', material.idMaterial]">
+        <button (click)="navigateToEdit(material.idMaterial)">
           <i class="fa fa-pencil" aria-hidden="true"></i> <!-- Icono de edición -->
         </button>
       </td>

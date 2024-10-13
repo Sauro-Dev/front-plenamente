@@ -66,7 +66,8 @@ export class StorageComponent implements OnInit {
   }
 
   navigateToEdit(id: string): void {
-    // Redirige a la ruta de edición con el ID del material
-    this.router.navigate([`/storage/material-edit`, id]);
+    console.log('Navigating to edit material with ID:', id);  // Verifica el ID en la consola
+    this.router.navigate([`/storage/material-edit`, id]); // Navega sin duplicar 'storage'
   }
+  
 }
