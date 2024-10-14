@@ -5,7 +5,7 @@ import { environment } from '../../enviroment';
 import { Material } from './material';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
   private apiUrl = `${environment.apiUrl}/materials`;
@@ -19,11 +19,12 @@ export class StorageService {
   getMaterials(): Observable<Material[]> {
     return this.http.get<Material[]>(`${this.apiUrl}/all`);
   }
-  getMaterialById(id: string): Observable<Material> {
-    return this.http.get<Material>(`${this.apiUrl}/select/{idMaterial}`);
+  getMaterialById(id: string) {
+    return this.http.get<Material>(
+      `${this.apiUrl}/select/${id}`
+    );
   }
-
-  updateMaterial(material: Material): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/update/{idMaterial}`, material);
+  updateMaterial(id: string, material: Material): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/update/${id}`, material);
   }
 }

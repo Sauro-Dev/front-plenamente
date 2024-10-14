@@ -8,6 +8,10 @@
             <input type="text"
                 class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 formControlName="idMaterial" placeholder="ID Material">
+            <small class="text-red-600 mt-1"
+                *ngIf="registerForm.get('idMaterial')?.hasError('maxlength') && registerForm.get('idMaterial')?.touched">
+                El ID no puede tener más de 4 caracteres.
+            </small>
         </div>
 
         <!-- Nombre -->

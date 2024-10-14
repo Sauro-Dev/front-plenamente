@@ -20,7 +20,11 @@ import { Router } from '@angular/router';
 export class AddRoomComponent {
   roomForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private roomsService: RoomsService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private roomsService: RoomsService,
+    private router: Router
+  ) {
     this.roomForm = this.fb.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
@@ -31,10 +35,11 @@ export class AddRoomComponent {
   onSubmit(): void {
     if (this.roomForm.valid) {
       const newRoom: Room = this.roomForm.value;
+
       this.roomsService.registerRoom(newRoom).subscribe(
         (room) => {
           alert('Sala registrada correctamente');
-          this.router.navigate(['/rooms']); // Redirigimos a la página de salas
+          this.router.navigate(['/rooms']);
         },
         (error) => {
           console.error('Error al registrar la sala', error);
@@ -45,10 +50,12 @@ export class AddRoomComponent {
   }
 
   onCancel(): void {
-    const confirmCancel = confirm('¿Estás seguro de que deseas cancelar el registro?');
+    const confirmCancel = confirm(
+      '¿Estás seguro de que deseas cancelar el registro?'
+    );
     if (confirmCancel) {
       this.roomForm.reset();
-      this.router.navigate(['/rooms']); // Redirigimos a la página de salas
+      this.router.navigate(['/rooms']);
     }
   }
 }

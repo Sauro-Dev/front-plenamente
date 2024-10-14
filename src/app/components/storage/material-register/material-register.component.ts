@@ -26,7 +26,7 @@ export class MaterialRegisterComponent {
     private router: Router
   ) {
     this.registerForm = this.fb.group({
-      idMaterial: ['', Validators.required],
+      idMaterial: ['', [Validators.required, Validators.maxLength(4)]],
       nombre: ['', Validators.required],
       estado: ['', Validators.required],
       stock: [0, [Validators.required, Validators.min(0)]],
