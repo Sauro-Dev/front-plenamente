@@ -9,7 +9,9 @@ export default [
   {
     path: 'register',
     loadComponent: () =>
-      import('./register/register.component').then((m) => m.RegisterComponent),
+      import('./register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
   },
   {
     path: 'details/:id',
